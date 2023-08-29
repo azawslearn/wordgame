@@ -92,6 +92,10 @@ def get_sentence():
     selected_sentence = random.choice(sentences)
     sentences.remove(selected_sentence)
     
+    # Replace curly braces {} with underscores ___
+    formatted_sentence = selected_sentence['sentence'].replace('{}', '___')
+    selected_sentence['sentence'] = formatted_sentence
+    
     return jsonify(selected_sentence)
 
 @app.route('/check_answer', methods=['POST'])
