@@ -2,11 +2,12 @@ from flask import Flask, render_template, request, jsonify, session
 from models import db, Sentence
 import random
 from populate import populate_db
+import config
 
 app = Flask(__name__)
 app.secret_key = 'some_random_string_here'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ivansto:EmersonFitipaldi@172.174.76.187/words'
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+mysqlconnector://{config.DB_USERNAME}:{config.DB_PASSWORD}@{config.DB_HOST}/{config.DB_NAME}"
 db.init_app(app)
 
 with app.app_context():
