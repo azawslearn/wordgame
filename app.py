@@ -6,7 +6,7 @@ from populate import populate_db
 app = Flask(__name__)
 app.secret_key = 'some_random_string_here'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ivansto:EmersonFitipaldi@172.178.21.114/words'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ivansto:EmersonFitipaldi@172.174.76.187/words'
 db.init_app(app)
 
 with app.app_context():
