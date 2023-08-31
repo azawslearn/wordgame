@@ -1,0 +1,100 @@
+---
+- hosts: your_target_host_or_group
+  become: yes
+  tasks:
+    - name: Update and Upgrade APT
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Install Required Packages
+      apt:
+        name:
+          - python3
+          - python3-pip
+
+    - name: Install pip packages
+      pip:
+        name: 
+          - virtualenv
+
+    - name: Install Git
+      apt:
+        name: git
+
+    - name: Clone Repository
+      git:
+        repo: 'https://github.com/azawslearn/wordgame.git'
+        dest: '/home/azureuser/wordgame'
+        version: app_with_mysql
+
+    - name: Create Virtual Environment
+      command:
+        cmd: virtualenv venv
+        chdir: '/home/azureuser/wordgame/'
+
+    - name: Install Python Dependencies
+      pip:
+        requirements: '/home/azureuser/wordgame/requirements.txt'
+        virtualenv: '/home/azureuser/wordgame/venv'
+
+    - name: Install Gunicorn via pip
+      pip:
+        name: gunicorn
+        virtualenv: '/home/azureuser/wordgame/venv'
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+
+    - name: Copy Nginx Configuration
+      copy:
+        content: |
+          server {
+              listen 80;
+              server_name 20.120.9.47;
+
+              location / {
+                  proxy_pass http://127.0.0.1:8000;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+              }
+          }
+        dest: '/etc/nginx/sites-available/wordgame'
+
+    - name: Enable Nginx Configuration
+      file:
+        src: '/etc/nginx/sites-available/wordgame'
+        dest: '/etc/nginx/sites-enabled/wordgame'
+        state: link
+
+    - name: Reload Nginx
+      systemd:
+        name: nginx
+        state: reloaded
+
+    - name: Create systemd Service File for Gunicorn
+      copy:
+        content: |
+          [Unit]
+          Description=Wordgame web application
+          After=network.target
+
+          [Service]
+          User=azureuser
+          WorkingDirectory=/home/azureuser/wordgame
+          ExecStart=/home/azureuser/wordgame/venv/bin/gunicorn -w 3 -b 0.0.0.0:8000 app:app
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        dest: '/etc/systemd/system/wordgame.service'
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Enable and Start wordgame
+      systemd:
+        name: wordgame
+        enabled: yes
+        state: started
