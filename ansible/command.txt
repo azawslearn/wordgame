@@ -48,6 +48,7 @@ server {
     }
 }
 
+
 11 Create a symbolic link for the Nginx configuration.
 
 sudo ln -s /etc/nginx/sites-available/wordgame /etc/nginx/sites-enabled
@@ -84,5 +85,3 @@ sudo systemctl enable wordgame
 sudo systemctl start wordgame
 sudo systemctl restart nginx
 sudo systemctl restart wordgame
-
-
