@@ -1,13 +1,18 @@
+
 from flask import Flask
-from models import db
-from populate import populate_db
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
+db = SQLAlchemy(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://ivansto:EmersonFitipaldi@172.174.76.187/words'
-
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
-    populate_db()
+def create_app():
+    from models import Sentence
+    with app.app_context():
+        # Check if the 'sentences' table already exists
+        if db.engine.has_table('sentences'):
+            # Drop it if you want to override
+            Sentence.__table__.drop(db.engine)
+        # Create the table
+        db.create_all()
+    return app
