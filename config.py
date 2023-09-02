@@ -1,8 +1,10 @@
 import configparser
 
-# Reading config.cfg file
+# Initialize the config parser
 config = configparser.ConfigParser()
-config.read('config.cfg')
+
+# Read the config.cfg file from the full path
+config.read('/home/azureuser/config.cfg')
 
 # Database configurations
 DB_USERNAME = "ivansto"
