@@ -3,3 +3,4 @@ Flask==1.1.2
 SQLAlchemy<1.4
 mysql-connector-python==8.0.21
 flask_sqlalchemy
+Jinja2>=2.11.3
