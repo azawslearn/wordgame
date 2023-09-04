@@ -4,7 +4,7 @@ import configparser
 config = configparser.ConfigParser()
 
 # Read the config.cfg file from the full path
-config.read('/home/azureuser/config.cfg')
+config.read('/home/ubuntu/config.cfg')
 
 # Database configurations
 DB_USERNAME = "ivansto"

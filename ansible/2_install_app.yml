@@ -27,23 +27,23 @@
     - name: Clone Repository
       git:
         repo: 'https://github.com/azawslearn/wordgame.git'
-        dest: '/home/azureuser/wordgame'
-        version: app_with_mysql
+        dest: '/home/ubuntu/wordgame'
+        version: app_with_mysql_aws
 
     - name: Create Virtual Environment
       command:
         cmd: virtualenv venv
-        chdir: '/home/azureuser/wordgame/'
+        chdir: '/home/ubuntu/wordgame/'
 
     - name: Install Python Dependencies
       pip:
-        requirements: '/home/azureuser/wordgame/requirements.txt'
-        virtualenv: '/home/azureuser/wordgame/venv'
+        requirements: '/home/ubuntu/wordgame/requirements.txt'
+        virtualenv: '/home/ubuntu/wordgame/venv'
 
     - name: Install Gunicorn via pip
       pip:
         name: gunicorn
-        virtualenv: '/home/azureuser/wordgame/venv'
+        virtualenv: '/home/ubuntu/wordgame/venv'
 
     - name: Install Nginx
       apt:
@@ -83,9 +83,9 @@
           After=network.target
 
           [Service]
-          User=azureuser
-          WorkingDirectory=/home/azureuser/wordgame
-          ExecStart=/home/azureuser/wordgame/venv/bin/gunicorn -w 3 -b 0.0.0.0:8000 app:app
+          User=ubuntu
+          WorkingDirectory=/home/ubuntu/wordgame
+          ExecStart=/home/ubuntu/wordgame/venv/bin/gunicorn -w 3 -b 0.0.0.0:8000 app:app
           Restart=always
 
           [Install]
