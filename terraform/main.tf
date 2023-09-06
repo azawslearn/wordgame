@@ -67,6 +67,10 @@ resource "azurerm_linux_web_app" "webapp_linux_webapp" {
     }
   }
 
+    identity {
+    type = "SystemAssigned"
+  }
+
 
 }
 
@@ -91,4 +95,12 @@ resource "azurerm_linux_web_app_slot" "staging_slot" {
   site_config {}
 }
 
+resource "azurerm_key_vault_access_policy" "example_policy" {
+  key_vault_id = "/subscriptions/3ecf44e9-4838-443e-b0cf-2dfb4eb00cbb/resourceGroups/keyVaultOne/providers/Microsoft.KeyVault/vaults/zekeyvaultforpyapp22"  # Replace this with your actual Key Vault resource ID if it's not managed by this Terraform script
+  
+  tenant_id = azurerm_linux_web_app.webapp_linux_webapp.identity.0.tenant_id
+  object_id = azurerm_linux_web_app.webapp_linux_webapp.identity.0.principal_id
 
+  key_permissions = []  # No key permissions
+  secret_permissions = ["get", "list"]
+}
