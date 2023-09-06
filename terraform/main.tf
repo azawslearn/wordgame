@@ -15,8 +15,8 @@ resource "azurerm_resource_group" "dockerWOrdGame" {
   location = "West Europe"
 }
 
-resource "azurerm_mysql_flexible_server" "docker_mysql" {
-  name                   = "docker_mysql"
+resource "azurerm_mysql_flexible_server" "dockermysql" {
+  name                   = "dockermysql"
   resource_group_name    = azurerm_resource_group.dockerWOrdGame.name
   location               = azurerm_resource_group.dockerWOrdGame.location
   administrator_login    = "mysqladminun"
@@ -25,18 +25,18 @@ resource "azurerm_mysql_flexible_server" "docker_mysql" {
   zone                   = "3"
 }
 
-resource "azurerm_mysql_flexible_database" "docker_db" {
-  name                = "docker_db"
+resource "azurerm_mysql_flexible_database" "dockerdb" {
+  name                = "dockerdb"
   resource_group_name = azurerm_resource_group.dockerWOrdGame.name
-  server_name         = azurerm_mysql_flexible_server.docker_mysql.name
+  server_name         = azurerm_mysql_flexible_server.dockermysql.name
   charset             = "utf8"
   collation           = "utf8_unicode_ci"
 }
 
-resource "azurerm_mysql_flexible_server_firewall_rule" "allow_all_ips" {
+resource "azurerm_mysql_flexible_server_firewall_rule" "allow-all-ips-rules" {
   name                = "allow-all-ips-rule"
   resource_group_name = azurerm_resource_group.dockerWOrdGame.name
-  server_name         = azurerm_mysql_flexible_server.docker_mysql.name
+  server_name         = azurerm_mysql_flexible_server.dockermysql.name
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "255.255.255.255"
   depends_on          = [azurerm_mysql_flexible_server.functionMySQLServer]
@@ -44,7 +44,7 @@ resource "azurerm_mysql_flexible_server_firewall_rule" "allow_all_ips" {
 
 output "mysql_server_fqdn" {
   description = "The Fully Qualified Domain Name of the MySQL Server."
-  value       = "${azurerm_mysql_flexible_server.docker_mysql.name}.mysql.database.azure.com"
+  value       = "${azurerm_mysql_flexible_server.dockermysql.name}.mysql.database.azure.com"
 }
 
 
