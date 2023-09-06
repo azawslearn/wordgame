@@ -39,7 +39,7 @@ resource "azurerm_mysql_flexible_server_firewall_rule" "allow-all-ips-rules" {
   server_name         = azurerm_mysql_flexible_server.dockermysql.name
   start_ip_address    = "0.0.0.0"
   end_ip_address      = "255.255.255.255"
-  depends_on          = [azurerm_mysql_flexible_server.functionMySQLServer]
+  depends_on          = [azurerm_mysql_flexible_server.dockermysql]
 }
 
 output "mysql_server_fqdn" {
