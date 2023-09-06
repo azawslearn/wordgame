@@ -102,5 +102,5 @@ resource "azurerm_key_vault_access_policy" "example_policy" {
   object_id = azurerm_linux_web_app.webapp_linux_webapp.identity.0.principal_id
 
   key_permissions = []  # No key permissions
-  secret_permissions = ["get", "list"]
+  secret_permissions = ["Get", "List"]
 }
