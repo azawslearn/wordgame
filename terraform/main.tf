@@ -63,7 +63,7 @@ resource "azurerm_linux_web_app" "webapp_linux_webapp" {
 
   site_config {
     application_stack {
-      dotnet_version = "6.0"
+      python_version = "3.11"
     }
   }
 
