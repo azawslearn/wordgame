@@ -47,4 +47,48 @@ output "mysql_server_fqdn" {
   value       = "${azurerm_mysql_flexible_server.dockermysql.name}.mysql.database.azure.com"
 }
 
+resource "azurerm_service_plan" "webapp_service_plan" {
+  name                = "webapp_service_plan"
+  resource_group_name = azurerm_resource_group.dockerWOrdGame.name
+  location            = azurerm_resource_group.dockerWOrdGame.location
+  os_type             = "Linux"
+  sku_name            = "S1"
+}
+
+resource "azurerm_linux_web_app" "webapp_linux_webapp" {
+  name                = "webapplinuxwebapp"
+  resource_group_name = azurerm_resource_group.dockerWOrdGame.name
+  location            = azurerm_service_plan.webapp_service_plan.location
+  service_plan_id     = azurerm_service_plan.webapp_service_plan.id
+
+  site_config {
+    application_stack {
+      dotnet_version = "6.0"
+    }
+  }
+
+
+}
+
+resource "azurerm_linux_web_app_slot" "dev_slot" {
+  name           = "dev-slot"
+  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
+
+  site_config {}
+}
+
+resource "azurerm_linux_web_app_slot" "test_slot" {
+  name           = "test-slot"
+  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
+
+  site_config {}
+}
+
+resource "azurerm_linux_web_app_slot" "staging_slot" {
+  name           = "staging-slot"
+  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
+
+  site_config {}
+}
+
 

@@ -1,13 +1,14 @@
-import configparser
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
-# Initialize the config parser
-config = configparser.ConfigParser()
+# Initialize Azure credentials
+credential = DefaultAzureCredential()
 
-# Read the config.cfg file from the full path
-config.read('/home/ubuntu/config.cfg')
+# Initialize the SecretClient
+secret_client = SecretClient(vault_url="https://<YourVaultName>.vault.azure.net/", credential=credential)
 
-# Database configurations
-DB_USERNAME = "ivansto"
-DB_PASSWORD = "EmersonFitipaldi"
-DB_HOST = config.get('Database', 'DB_HOST', fallback='default_value_if_not_set')
-DB_NAME = "words"
+# Retrieve secrets from Azure Key Vault
+DB_USERNAME = secret_client.get_secret("DB_USERNAME").value
+DB_PASSWORD = secret_client.get_secret("DB_PASSWORD").value
+DB_HOST = secret_client.get_secret("DB_HOST").value or 'default_value_if_not_set'
+DB_NAME = secret_client.get_secret("DB_NAME").value
