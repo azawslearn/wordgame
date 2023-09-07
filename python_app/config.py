@@ -10,5 +10,5 @@ secret_client = SecretClient(vault_url="https://zekeyvaultforpyapp22.vault.azure
 # Retrieve secrets from Azure Key Vault
 DB_USERNAME = secret_client.get_secret("DBUSERNAME").value
 DB_PASSWORD = secret_client.get_secret("DBPASSWORD").value
-DB_HOST = secret_client.get_secret("DBHOST").value or 'default_value_if_not_set'
+DB_HOST = secret_client.get_secret("DBHOST").value
 DB_NAME = secret_client.get_secret("DBNAME").value
