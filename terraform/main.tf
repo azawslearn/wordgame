@@ -63,7 +63,7 @@ resource "azurerm_linux_web_app" "webapp_linux_webapp" {
 
   site_config {
     application_stack {
-      dotnet_version = "6.0"
+      python_version = "3.10"
     }
   }
 
@@ -81,16 +81,4 @@ resource "azurerm_linux_web_app_slot" "dev_slot" {
   site_config {}
 }
 
-resource "azurerm_linux_web_app_slot" "test_slot" {
-  name           = "test-slot"
-  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
 
-  site_config {}
-}
-
-resource "azurerm_linux_web_app_slot" "staging_slot" {
-  name           = "staging-slot"
-  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
-
-  site_config {}
-}
