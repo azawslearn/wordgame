@@ -74,10 +74,5 @@ resource "azurerm_linux_web_app" "webapp_linux_webapp" {
 
 }
 
-resource "azurerm_linux_web_app_slot" "dev_slot" {
-  name           = "dev-slot"
-  app_service_id = azurerm_linux_web_app.webapp_linux_webapp.id
 
-  site_config {}
-}
 
