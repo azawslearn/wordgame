@@ -7,4 +7,3 @@ jinja2
 gunicorn
 azure-identity
 azure-keyvault-secrets
-
