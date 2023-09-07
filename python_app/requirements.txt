@@ -1,7 +1,10 @@
 
 Flask
 SQLAlchemy<1.4
-mysql-connector-python==8.0.21
+mysql-connector-python
 flask_sqlalchemy
 jinja2
 gunicorn
+azure-identity
+azure-keyvault-secrets
+
