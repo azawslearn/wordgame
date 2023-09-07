@@ -5,7 +5,7 @@ from azure.keyvault.secrets import SecretClient
 credential = DefaultAzureCredential()
 
 # Initialize the SecretClient
-secret_client = SecretClient(vault_url="https://<YourVaultName>.vault.azure.net/", credential=credential)
+secret_client = SecretClient(vault_url="https://zekeyvaultforpyapp22.vault.azure.net/", credential=credential)
 
 # Retrieve secrets from Azure Key Vault
 DB_USERNAME = secret_client.get_secret("DBUSERNAME").value
