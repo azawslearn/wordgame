@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify, session
 import random
 
-app = Flask(__name__)
-app.secret_key = 'some_random_string_here'
+application = Flask(__name__)
+application.secret_key = 'some_random_string_here'
 
 sentences = [
     #weak
@@ -76,7 +76,7 @@ sentences = [
     {'sentence': '{} gut{} aufgeweckt{} Kinder Neugierde ist bewundernswert.', 'article': 'None', 'adj_ending': 'er', 'case': 'Genitive', 'declension': 'Strong'}
 ]
 
-@app.route('/')
+@application.route('/')
 def index():
     if 'correct' not in session:
         session['correct'] = 0
@@ -84,7 +84,7 @@ def index():
         session['incorrect'] = 0
     return render_template('index.html')
 
-@app.route('/get_sentence')
+@application.route('/get_sentence')
 def get_sentence():
     if len(sentences) == 0:
         return jsonify({'end': True, 'correct': session['correct'], 'incorrect': session['incorrect']})
@@ -98,7 +98,7 @@ def get_sentence():
     
     return jsonify(selected_sentence)
 
-@app.route('/check_answer', methods=['POST'])
+@application.route('/check_answer', methods=['POST'])
 def check_answer():
     user_article = request.form['user_article']
     user_adj_ending = request.form['user_adj_ending']
@@ -113,4 +113,4 @@ def check_answer():
     return jsonify({'correct': session['correct'], 'incorrect': session['incorrect']})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
